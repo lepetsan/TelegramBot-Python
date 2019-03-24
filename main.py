@@ -4,6 +4,8 @@ from selenium import webdriver
 from pyvirtualdisplay import Display
 import requests
 import re
+import os
+
 
 def get_url():
     contents = requests.get('https://random.dog/woof.json').json()
@@ -28,14 +30,23 @@ def kopek(bot, update):
     bot.send_photo(chat_id=chat_id, photo=url)
 
 
-def sinema(bot, update):
-    driver = webdriver.Firefox(executable_path='/usr/bin/firefox')
-    driver.get('https://biletinial.com/mekan/ankara-kentpark-prestige')
-    driver.save_screenshot('sample_screenshot_1.png')
+def sinemakentpark(bot, update):
+    # driver = webdriver.Firefox(executable_path='//usr//bin//firefox')
+    # driver.get('biletinial.com//mekan//ankara-kentpark-prestige')
+    # driver.save_screenshot('sample_screenshot_1.png')
+    os.system("cutycapt --url=https://biletinial.com/mekan/ankara-kentpark-prestige --out=screenshot_kentpark.png --zoom-factor=3")
     chat_id = update.message.chat_id
-    bot.send_photo(chat_id=chat_id, photo=open("screenshot.jpg", 'rb'))
+    bot.send_photo(chat_id=chat_id, photo=open("screenshot_kentpark.png", 'rb'))
+    # driver.close()
 
-
+def sinemagordion(bot, update):
+    # driver = webdriver.Firefox(executable_path='//usr//bin//firefox')
+    # driver.get('biletinial.com//mekan//ankara-kentpark-prestige')
+    # driver.save_screenshot('sample_screenshot_1.png')
+    os.system("cutycapt --url=https:///www.cinemaximum.com.tr//gordion-sinema-salonu --out=screenshot_cepa.png")
+    chat_id = update.message.chat_id
+    bot.send_photo(chat_id=chat_id, photo=open("screenshot_cepa.png", 'rb'))
+    # driver.close()
 
 
 
@@ -44,7 +55,8 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('kopek',kopek))
     dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('sinema',sinema))
+    dp.add_handler(CommandHandler('sinemakentpark',sinemakentpark))
+    dp.add_handler(CommandHandler('sinemagordion',sinemagordion))
     updater.start_polling()
     updater.idle()
 
